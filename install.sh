@@ -22,7 +22,7 @@ then
   fi
 fi
 echo "Downloading Control Application"
-git clone https://github.com/mech-soluitons-ltd/Control-Application
+git clone https://github.com/Cloud-3D-Print/Control-Application
 mv /home/$USER/Control-Application /home/$USER/control
 echo "Enabling CSI"
 echo $'\n#Enable CSI\nstart_x=1' | sudo tee -a /boot/config.txt
