@@ -54,7 +54,7 @@ After=multi-user.target
 [Service]
 WorkingDirectory=/home/$USER
 ExecStartPre=/home/$USER/control/update.sh
-ExecStart=/bin/sh -c 'java -cp /home/pi/control/SerialCommunicator-C3P-v*.jar com.cloud3dprint.Main /home/pi/control/config.json'
+ExecStart=/bin/sh -c 'java -cp /home/$USER/control/SerialCommunicator-C3P-v*.jar com.cloud3dprint.Main /home/$USER/control/config.json'
 User=root
 Type=simple
 Restart=on-failure
@@ -77,8 +77,8 @@ Description=Cloud 3D Print Control Application Upgrade
 After=multi-user.target
 
 [Service]
-WorkingDirectory=/home/pi
-ExecStart=/home/pi/control/media/upgrade.sh
+WorkingDirectory=/home/$USER
+ExecStart=/home/$USER/control/media/upgrade.sh
 User=root
 Type=simple
 EOF
@@ -92,7 +92,7 @@ git pull || true
 EOF
 sudo chmod +x /home/$USER/control/update.sh
 
-chmod +x /home/pi/control/tpcpilocal/tpcpilocal
+chmod +x /home/$USER/control/tpcpilocal/tpcpilocal
 
 sudo touch /home/$USER/control/tpcpilocal/tpcpi_localconfig.yml
 sudo tee /home/$USER/control/tpcpilocal/tpcpi_localconfig.yml &>/dev/null <<EOF
