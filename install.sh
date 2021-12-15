@@ -22,7 +22,7 @@ then
   fi
 fi
 echo "Downloading Control Application"
-git clone https://github.com/Cloud-3D-Print/Control-Application
+git clone -b 1.6.0 https://github.com/cloud-3D-Print/Control-Application
 mv /home/$USER/Control-Application /home/$USER/control
 echo "Enabling CSI"
 echo $'\n#Enable CSI\nstart_x=1' | sudo tee -a /boot/config.txt
@@ -92,9 +92,46 @@ git pull || true
 EOF
 sudo chmod +x /home/$USER/control/update.sh
 
+chmod +x /home/pi/control/tpcpilocal/tpcpilocal
+
+sudo touch /home/$USER/control/tpcpilocal/tpcpi_localconfig.yml
+sudo tee /home/$USER/control/tpcpilocal/tpcpi_localconfig.yml &>/dev/null <<EOF
+### resolution support 360P, 480P, 720P, 1080P, 2K. default is 720P
+resolution: 720P
+gpuJPEGQualityRank: 8    ### 1~10
+localVidHttpPort: 9988
+gRPCPortForPrinterControler: 19988
+iNotifyConfFile: /home/$USER/control/AI_Config.json
+EOF
+
+sudo touch /etc/systemd/system/tpcpilocal.service
+sudo tee /etc/systemd/system/tpcpilocal.service &>/dev/null <<EOF
+[Unit]
+Description=TPCPI Local Daemon
+After=network-online.target syslog.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/$USER/control/tpcpilocal
+User=$USER
+ExecStart=/home/$USER/control/tpcpilocal/tpcpilocal
+Restart=on-failure
+LimitNOFILE=65536
+RestartSec=5s
+TimeoutSec=0
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=tpcpilocal
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
 sudo systemctl daemon-reload
 sudo systemctl enable c3p.service
 sudo systemctl start c3p.service
+sudo systemctl enable tpcpilocal.service
+sudo systemctl start tpcpilocal.service
 printf '=%.0s' {1..45}
 echo
 printf '=%.0s' {1..45}
