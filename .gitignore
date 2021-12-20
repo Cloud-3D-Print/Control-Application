@@ -1,6 +1,6 @@
 
 .DS_Store
-gcode/
-h2db/
-logs/
-media/
+gcode/*
+h2db/*
+logs/*
+media/*
