@@ -14,8 +14,11 @@ then
     then
       sudo systemctl disable c3p
       sudo systemctl stop c3p
+      sudo systemctl disable tpcpilocal
+      sudo systemctl stop tpcpilocal
       sudo rm /etc/systemd/system/c3p.service
       sudo rm /etc/systemd/system/c3pUpgrade.service
+      sudo rm /etc/systemd/system/tpcpilocal.service
       sudo rm -rf /home/$USER/control
     else
       exit 0
