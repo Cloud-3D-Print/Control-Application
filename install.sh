@@ -25,7 +25,7 @@ then
   fi
 fi
 echo "Downloading Control Application"
-git clone -b 1.6.0 https://github.com/cloud-3D-Print/Control-Application
+git clone -b 1.6.2 https://github.com/cloud-3D-Print/Control-Application
 mv /home/$USER/Control-Application /home/$USER/control
 echo "Enabling CSI"
 echo $'\n#Enable CSI\nstart_x=1' | sudo tee -a /boot/config.txt
@@ -57,7 +57,7 @@ After=multi-user.target
 [Service]
 WorkingDirectory=/home/$USER
 ExecStartPre=/home/$USER/control/update.sh
-ExecStart=/bin/sh -c 'java -cp /home/$USER/control/SerialCommunicator-C3P-v*.jar com.cloud3dprint.Main /home/$USER/control/config.json'
+ExecStart=/bin/sh -c 'java -cp /home/$USER/control/Cloud3DPrint-v*.jar com.cloud3dprint.Main /home/$USER/control/config.json'
 User=root
 Type=simple
 Restart=on-failure
@@ -91,7 +91,7 @@ sudo touch /home/$USER/control/update.sh
 sudo tee /home/$USER/control/update.sh &>/dev/null <<EOF
 #!/bin/bash +v
 cd /home/$USER/control
-git pull || true
+sudo git pull || true
 EOF
 sudo chmod +x /home/$USER/control/update.sh
 
