@@ -1,6 +1,11 @@
-
-.DS_Store
-gcode/*
-h2db/*
-logs/*
-media/*
+# Do not track config.json or update.sh to prevent error on "git pull" when upgrading
+# (users may edit the config.json file)
+AI_Config.json
+config.json
+update.sh
+restart.sh
+# These should be empty on clone
+logs/
+media/
+h2db/
+gcode/
